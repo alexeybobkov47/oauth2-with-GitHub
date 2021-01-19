@@ -44,10 +44,9 @@ func (s *server) registerRoutes() {
 
 	// Routes
 	e.Static("/", "web")
-	// e.GET("/login", func(c echo.Context) error {
-	// 	return c.Redirect(301, s.oauth.AuthCodeURL("state", oauth2.AccessTypeOnline))
-	// })
-	// e.GET("/authorization", s.authorization)
-	e.GET("/login", s.authorization)
+	e.GET("/login", func(c echo.Context) error {
+		return c.Redirect(301, s.oauth.AuthCodeURL("state", oauth2.AccessTypeOnline))
+	})
+	e.GET("/authorization", s.authorization)
 
 }

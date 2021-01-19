@@ -20,8 +20,8 @@ func (s *server) authorization(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	client := s.oauth.Client(c.Request().Context(), tok)
-	client.Get("...")
+	// client := s.oauth.Client(c.Request().Context(), tok)
+	// client.Get("...")
 
 	return err
 
