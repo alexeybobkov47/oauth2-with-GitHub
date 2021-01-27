@@ -15,22 +15,22 @@ type server struct {
 func main() {
 	s := &server{}
 	s.oauth = &oauth2.Config{
-		ClientID:     "7fd1e335e67efe6e8674",
-		ClientSecret: "17vPWEL%",
-		Scopes:       []string{"test"},
+		ClientID:     "7735674",
+		ClientSecret: "9qp6zpB9szRsb3ICSoat",
+		Scopes:       []string{"photos"},
+		RedirectURL:  "http://localhost:8080/callback",
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  "https://github.com/login/oauth/authorize",
-			TokenURL: "https://github.com/login/oauth/access_token",
+			AuthURL:  "https://oauth.vk.com/authorize",
+			TokenURL: "https://oauth.vk.com/access_token",
 		},
 	}
 	s.registerRoutes()
 
 	// Start server
 
-	s.l.Fatal(s.mux.Start(":1323"))
+	s.l.Fatal(s.mux.Start(":8080"))
 
 }
-
 func (s *server) registerRoutes() {
 	// Echo instance
 	e := echo.New()
@@ -45,8 +45,8 @@ func (s *server) registerRoutes() {
 	// Routes
 	e.Static("/", "web")
 	e.GET("/login", func(c echo.Context) error {
-		return c.Redirect(301, s.oauth.AuthCodeURL("state", oauth2.AccessTypeOnline))
+		return c.Redirect(301, s.oauth.AuthCodeURL("state", oauth2.AccessTypeOffline))
 	})
-	e.GET("/authorization", s.authorization)
+	e.GET("/callback", s.authorization)
 
 }

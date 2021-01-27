@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/labstack/echo/v4"
+	"golang.org/x/oauth2"
 )
 
 func (s *server) authorization(c echo.Context) error {
@@ -12,16 +12,18 @@ func (s *server) authorization(c echo.Context) error {
 	// URL. Exchange will do the handshake to retrieve the
 	// initial access token. The HTTP Client returned by
 	// conf.Client will refresh the token as necessary.
-	code := c.FormValue("code")
-	fmt.Printf("\n%v\n", code)
-	tok, err := s.oauth.Exchange(c.Request().Context(), code)
-	fmt.Printf("\n%v\n", tok)
-	if err != nil {
-		log.Fatal(err)
+	state := c.FormValue("state")
+	if state != "state" {
+		return echo.ErrBadRequest
 	}
-
-	// client := s.oauth.Client(c.Request().Context(), tok)
-	// client.Get("...")
+	code := c.FormValue("code")
+	tok, err := s.oauth.Exchange(oauth2.NoContext, code)
+	fmt.Printf("\n%v", tok)
+	if err != nil {
+		return err
+	}
+	getInfoURL := "https://api.vk.com/method/account.getInfo?&access_token=" + tok.AccessToken + "&v=5.126"
+	c.Redirect(301, getInfoURL)
 
 	return err
 
