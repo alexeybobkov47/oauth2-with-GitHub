@@ -22,7 +22,7 @@ func (s *server) authorization(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	getInfoURL := "https://api.vk.com/method/account.getInfo?&access_token=" + tok.AccessToken + "&v=5.126"
+	getInfoURL := "https://api.vk.com/method/friends.get?fields=?&access_token=" + tok.AccessToken + "&v=5.126"
 	c.Redirect(301, getInfoURL)
 
 	return err
