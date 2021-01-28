@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/labstack/echo/v4"
 	"golang.org/x/oauth2"
 )
@@ -18,13 +16,11 @@ func (s *server) authorization(c echo.Context) error {
 	}
 	code := c.FormValue("code")
 	tok, err := s.oauth.Exchange(oauth2.NoContext, code)
-	fmt.Printf("\n%v", tok)
 	if err != nil {
 		return err
 	}
 	getInfoURL := "https://api.vk.com/method/friends.get?fields=?&access_token=" + tok.AccessToken + "&v=5.126"
 	c.Redirect(301, getInfoURL)
-
 	return err
 
 }

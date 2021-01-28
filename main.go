@@ -48,6 +48,21 @@ func (s *server) registerRoutes() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 	e.Use(casbin_mw.Middleware(enforcer))
+	// e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+	// 	switch username {
+	// 	case "admin":
+	// 		if password == "admin" {
+	// 			return true, nil
+	// 		}
+	// 	case "user":
+	// 		if password == "user" {
+	// 			return true, nil
+	// 		}
+	// 	default:
+	// 		return false, nil
+	// 	}
+	// 	return false, nil
+	// }))
 
 	// Routes
 	e.Static("/", "web")
