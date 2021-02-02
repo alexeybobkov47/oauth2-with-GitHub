@@ -1,3 +1,5 @@
-p, admin, /*, GET
+p, admin, /admin, GET
 p, , /, GET
+p, , /login, GET
+p, , /callback, GET
 
